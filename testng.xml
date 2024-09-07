@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="/Users/kaiiemsawat/Documents/PostEducationProject/Automation/SeleniumTestNg/testNG_2/TestNG_Practice">
+        <classes>
+            <class name="t01.FirstTestCase"/>
+            <class name="t01.SecondTestCase">
+                <methods>
+                    <include name="setup"/>
+                    <include name="searchCustomer"/>
+                    <include name="teardown"/>
+                </methods>
+            </class>
+            <class name="t01.TC1"/>
+            <class name="t01.TC2"/>
+
+        </classes>
+    </test>
+</suite>
