@@ -4,6 +4,16 @@ import org.testng.annotations.*;
 
 public class TC1 {
 
+    @BeforeSuite
+    void beforeSuit() {
+        System.out.println("THIS IS FROM BEFORE SUIT METHOD");
+    }
+
+    @AfterSuite
+    void afterSuit() {
+        System.out.println("THIS IS FROM AFTER SUIT METHOD");
+    }
+
     @BeforeClass
     void beforeClass() {
         System.out.println("This is from - Before Class");
