@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="/Users/kaiiemsawat/Documents/PostEducationProject/Automation/SeleniumTestNg/testNG_2/TestNG_Practice/src/test/java/t03_grouping/GroupingDemo.java">
+
+        <groups>
+            <run>
+                <include name="sanity" />
+                <include name="regression" />
+
+                <exclude name="smoke"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="t03_grouping.GroupingDemo"/>
+        </classes>
+    </test>
+</suite>

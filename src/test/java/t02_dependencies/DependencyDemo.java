@@ -1,4 +1,4 @@
-package t02;
+package t02_dependencies;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;

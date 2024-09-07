@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="/Users/kaiiemsawat/Documents/PostEducationProject/Automation/SeleniumTestNg/testNG_2/TestNG_Practice/src/test/java/t02_dependencies/DependencyDemo.java">
+        <classes>
+            <class name="t02_dependencies.DependencyDemo">
+                <methods>
+                    <include name="startCar"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
