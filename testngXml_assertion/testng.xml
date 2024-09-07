@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true"
+          name="/Users/kaiiemsawat/Documents/PostEducationProject/Automation/SeleniumTestNg/testNG_2/TestNG_Practice/src/test/java/t04_Assertion/AssertionDemo.java">
+        <classes>
+            <class name="t04_Assertion.AssertionDemo">
+                <methods>
+                    <include name="logoTest"/>
+                    <include name="pageTitle"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
