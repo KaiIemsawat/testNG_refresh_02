@@ -1,11 +1,10 @@
 package t08_XlsxData;
 
 
-
-
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.testng.annotations.DataProvider;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +13,8 @@ import java.io.IOException;
 public class XlsxData {
     /* Need Apache POI and Apache POI-OOXML */
 
-    public static void main(String[] args) throws IOException {
+    @DataProvider
+    public Object[][] getData() throws IOException {
         // Create file based on the existing xlsx file
         File excelFile = new File("src/test/java/t08_XlsxData/sample_data.xlsx");
 //        System.out.println(excelFile.exists()); // check if file existed
@@ -31,19 +31,29 @@ public class XlsxData {
         int numOfRow = sheet.getPhysicalNumberOfRows(); // This includes header row
         // Get Column
         int numOfColumn = sheet.getRow(0).getLastCellNum();
+
+        // Create 2D array for containing the data;
+        String[][] data = new String[numOfRow - 1][numOfColumn];
+
+
 //        System.out.println(numOfRow);
-        for (int r = 1; r < numOfRow; r++) {
+        for (int r = 0; r < numOfRow - 1; r++) {
             for (int c = 0; c < numOfColumn; c++) {
                 DataFormatter df = new DataFormatter();
-                df.formatCellValue(sheet.getRow(r).getCell(c)); // Format value to String
-                System.out.println(df.formatCellValue(sheet.getRow(r).getCell(c)));
+                // Format value to String and assign values to the 2D array
+                data[r][c] = df.formatCellValue(sheet.getRow(r + 1).getCell(c));
+//                System.out.println(df.formatCellValue(sheet.getRow(r).getCell(c)));
             }
-            System.out.println();
         }
 
+//        for (String[] dataArr : data) {
+//            System.out.println(Arrays.toString(dataArr));
+//        }
 
         // Always close Workbook and FileInputStream to avoid memory leak
         workbook.close();
         fis.close();
+
+        return data;
     }
 }
