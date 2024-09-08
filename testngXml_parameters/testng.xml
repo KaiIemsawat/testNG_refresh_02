@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <parameter name="browser" value="chrome"/>
+    <parameter name="url" value="https://opensource-demo.orangehrmlive.com/web/index.php/auth/login"/>
+    <test verbose="2" preserve-order="true"
+          name="/Users/kaiiemsawat/Documents/PostEducationProject/Automation/SeleniumTestNg/testNG_2/TestNG_Practice/src/test/java/t05_parameters/ParametersDemo.java">
+        <classes>
+            <class name="t05_parameters.ParametersDemo"/>
+    
+        </classes>
+    </test>
+</suite>
