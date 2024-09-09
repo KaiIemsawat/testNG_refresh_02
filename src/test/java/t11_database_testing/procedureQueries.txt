@@ -1,5 +1,17 @@
 These queries are to be used with MySQL Sample Database - https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
 
+/*
+
+Syntax for calling Store Procedures
+
+{CALL procedure_nme()}                  Accept no parameter and return no value
+{CALL procedure_name(?,?)}              Accept two parameters and return no value
+{? = CALL procedure_name()}             Accept no parameter and return value
+{? = CALL procedure_name(?)}            Accept on parameter and return value
+
+*/
+
+
 delimiter //
 -- The delimiter is a character in SQL which is used to separate the data items in a database.
 -- It identifies the beginning and end of the character string. Generally, the delimiter used in SQL is ‘;’.

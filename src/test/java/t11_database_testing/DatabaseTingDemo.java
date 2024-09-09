@@ -1,5 +1,6 @@
 package t11_database_testing;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -14,7 +15,10 @@ public class DatabaseTingDemo {
 
     Connection connection = null;
     Statement statement = null;
-    ResultSet resultSet;
+    ResultSet resultSet01;
+    ResultSet resultSet02;
+    ResultSet resultSet03;
+    CallableStatement callableStatement;
 
     @BeforeClass
     void setup() {
@@ -42,9 +46,38 @@ public class DatabaseTingDemo {
     @Test(priority = 1)
     void test_storeProceduresExists() throws SQLException {
         statement = connection.createStatement();
-        resultSet = statement.executeQuery("SHOW PROCEDURE STATUS WHERE name = 'SelectAllCustomers'");
-        resultSet.next();
+        // We can use 'executeQuery' with normal statement.
+        // But for STORE PROCEDURE we need 'callableStatement' as below
+        resultSet01 = statement.executeQuery("SHOW PROCEDURE STATUS WHERE name = 'SelectAllCustomers'");
+        resultSet01.next();
 
-        Assert.assertEquals(resultSet.getString("Name"), "SelectAllCustomers");
+        Assert.assertEquals(resultSet01.getString("Name"), "SelectAllCustomers");
     }
+
+    @Test(priority = 2)
+    void test_selectAllCustomers() throws SQLException {
+        callableStatement =  connection.prepareCall("{CALL SelectAllCustomers()}");
+        resultSet02 = callableStatement.executeQuery();
+
+        statement = connection.createStatement();
+        resultSet03 = statement.executeQuery("SELECT * FROM customers");
+        Assert.assertTrue(compareResultSets(resultSet02, resultSet03));
+    }
+
+    //    Method to compare resultSet
+    private boolean compareResultSets(ResultSet rs1, ResultSet rs2) throws SQLException {
+        while (rs1.next()) {
+            rs2.next();
+            int count = rs1.getMetaData().getColumnCount();
+            for (int i = 1; i<= count; i++) {
+                // Import StringUtils from 'org.apache.commons.lang3.StringUtils;'
+                if (!StringUtils.equals(rs1.getString(i), rs2.getString(i))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
 }
