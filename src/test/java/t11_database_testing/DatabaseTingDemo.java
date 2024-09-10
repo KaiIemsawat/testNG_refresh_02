@@ -76,6 +76,20 @@ public class DatabaseTingDemo {
         Assert.assertTrue(compareResultSets(resultSet02, resultSet03));
     }
 
+    @Test(priority = 4)
+    void test_selectAllCustomersByCityAndPinCode() throws SQLException {
+        // using 'prepareCall' with multiple parameters
+        callableStatement =  connection.prepareCall("{CALL SelectAllCustomersByCityAndPin(?, ?)}");
+        callableStatement.setString(1, "Singapore");
+        callableStatement.setString(2, "079903");
+
+        resultSet02 = callableStatement.executeQuery();
+
+        statement = connection.createStatement();
+        resultSet03 = statement.executeQuery("SELECT * FROM customers WHERE city = 'Singapore' AND postalCode = '079903'");
+        Assert.assertTrue(compareResultSets(resultSet02, resultSet03));
+    }
+
     //    Method to compare resultSet
     private boolean compareResultSets(ResultSet rs1, ResultSet rs2) throws SQLException {
         while (rs1.next()) {
