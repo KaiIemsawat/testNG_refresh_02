@@ -131,6 +131,35 @@ public class DatabaseTingDemo {
         } else Assert.assertTrue(false);
     }
 
+    @Test(priority = 6)
+    void test_getCustomerShipping() throws SQLException {
+        // Need to include both expected return and input parameters
+        callableStatement = connection.prepareCall("{CALL GetCustomerShipping(?, ?)}");
+        // set input parameter -- Note : parameter index starts at '1'
+        callableStatement.setInt(1, 112);
+        // set output parameters, positions and types -- Note : parameter index starts at '1'
+        callableStatement.registerOutParameter(2, Types.VARCHAR);
+
+        callableStatement.executeQuery();
+        // -- Note : parameter index starts at '1'
+        String shippingTime  = callableStatement.getString(2);
+
+        statement = connection.createStatement();
+        resultSet01 = statement.executeQuery(
+                "SELECT country, CASE WHEN country = 'USA' THEN '2-day Shipping' \n" +
+                "WHEN country='Canada' THEN '3-day Shipping' \n" +
+                "ELSE '5-day Shipping' END as ShippingTime \n" +
+                "FROM customers WHERE customerNumber = 112"
+                );
+
+        resultSet01.next();
+
+        String expectedShippingTime = resultSet01.getString("shippingTime");
+
+        Assert.assertEquals(shippingTime, expectedShippingTime);
+
+    }
+
     //    Method to compare resultSet
     private boolean compareResultSets(ResultSet rs1, ResultSet rs2) throws SQLException {
         while (rs1.next()) {
