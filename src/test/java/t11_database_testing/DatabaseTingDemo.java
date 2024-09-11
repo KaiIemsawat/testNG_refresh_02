@@ -90,6 +90,47 @@ public class DatabaseTingDemo {
         Assert.assertTrue(compareResultSets(resultSet02, resultSet03));
     }
 
+    @Test(priority = 5)
+    void test_getOrderByCust() throws SQLException {
+        // Need to include both expected return and input parameters
+        callableStatement = connection.prepareCall("{CALL get_order_by_cust(?, ?, ?, ?, ?)}");
+        // set input parameter -- Note : parameter index starts at '1'
+        callableStatement.setInt(1, 141);
+        // set output parameters, positions and types -- Note : parameter index starts at '1'
+        callableStatement.registerOutParameter(2, Types.INTEGER);
+        callableStatement.registerOutParameter(3, Types.INTEGER);
+        callableStatement.registerOutParameter(4, Types.INTEGER);
+        callableStatement.registerOutParameter(5, Types.INTEGER);
+
+        callableStatement.executeQuery();
+        // -- Note : parameter index starts at '1'
+        int shipped = callableStatement.getInt(2);
+        int canceled = callableStatement.getInt(3);
+        int resolved = callableStatement.getInt(4);
+        int disputed = callableStatement.getInt(5);
+
+        // System.out.println(shipped + " " + canceled + " " + resolved + " " + disputed);
+
+        statement = connection.createStatement();
+        resultSet01 = statement.executeQuery("SELECT \n" +
+                "    (SELECT count(*) as 'shipped' FROM orders WHERE customerNumber = 141 AND status = 'Shipped') as Shipped,\n" +
+                "    (SELECT count(*) as 'canceled' FROM orders WHERE customerNumber = 141 AND status = 'Canceled') as Canceled,\n" +
+                "    (SELECT count(*) as 'resolved' FROM orders WHERE customerNumber = 141 AND status = 'Resolved') as Resolved,\n" +
+                "    (SELECT count(*) as 'disputed' FROM orders WHERE customerNumber = 141 AND status = 'Disputed') as Disputed;");
+
+        resultSet01.next();
+
+        // get values from each column
+        int expShipped = resultSet01.getInt("shipped");
+        int expCanceled = resultSet01.getInt("canceled");
+        int expResolved = resultSet01.getInt("resolved");
+        int expDisputed = resultSet01.getInt("disputed");
+
+        if (shipped == expShipped && canceled == expCanceled && resolved == expResolved && disputed == expDisputed) {
+            Assert.assertTrue(true);
+        } else Assert.assertTrue(false);
+    }
+
     //    Method to compare resultSet
     private boolean compareResultSets(ResultSet rs1, ResultSet rs2) throws SQLException {
         while (rs1.next()) {
