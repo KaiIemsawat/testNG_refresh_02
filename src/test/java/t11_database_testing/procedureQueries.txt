@@ -1,83 +1,32 @@
-These queries are to be used with MySQL Sample Database - https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
+These queries are to be used with MySQL Sample Database
+    - https://www.mysqltutorial.org/getting-started-with-mysql/mysql-sample-database/
 
-/*
+-- create
+CREATE database classicmodels;
 
-Syntax for calling Store Procedures
+-- use
+use classicmodels;
 
-{CALL procedure_nme()}                  Accept no parameter and return no value
-{CALL procedure_name(?,?)}              Accept two parameters and return no value
-{? = CALL procedure_name()}             Accept no parameter and return value
-{? = CALL procedure_name(?)}            Accept on parameter and return value
+-- display tables
+SHOW tables;
 
-*/
+-- test
+SELECT * FROM customers;
 
+-- validate metadata
+SELECT COUNT(*) AS NumberOfColumns FROM information_schema.columns WHERE table_name = 'customers';
 
-delimiter //
--- The delimiter is a character in SQL which is used to separate the data items in a database.
--- It identifies the beginning and end of the character string. Generally, the delimiter used in SQL is ‘;’.
--- Also, we can change the delimiter by using the DELIMITER command.
+-- validate column name, data type
+SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'customers';
 
-CREATE procedure SelectAllCustomersByCityAndPin(IN myCity varchar(50), IN pCode varchar(15))
-Begin
-	SELECT * FROM customers WHERE city=myCity AND postalCode=pCode;
-End //
-
-delimiter ;
-
-CALL SelectAllCustomersByCityAndPin('Singapore', '079903');
-
--------------------------------------
-
-delimiter //
-
-CREATE PROCEDURE get_order_by_cust(
-	IN cust_no INT, -- input
-    OUT shipped INT, -- return
-    OUT canceled INT, -- return
-    OUT resolved INT, -- return
-    OUT disputed int -- return
-)
-BEGIN
-	-- shipped
-    SELECT count(*) INTO shipped FROM orders WHERE customerNumber = cust_no AND status = 'Shipped';
-
-    -- canceled
-    SELECT count(*) INTO canceled FROM orders WHERE customerNumber = cust_no AND status = 'Canceled';
-
-    -- resolved
-    SELECT count(*) INTO resolved FROM orders WHERE customerNumber = cust_no AND status = 'Resolved';
-
-    -- disputed
-    SELECT count(*) INTO disputed FROM orders WHERE customerNumber = cust_no AND status = 'Disputed';
-END //
-
-delimiter ;
-
-CALL get_order_by_cust(141, @shipped, @canceled, @resolved, @disputed);
-SELECT @shipped, @canceled, @resolved, @disputed;
-
--------------------------------------
-
-DELIMITER //
-
-CREATE PROCEDURE GetCustomerShipping(
-	IN pCustomerNumber INT,
-    OUT pShipping VARCHAR(50)
-)
-BEGIN
-	DECLARE customerCountry VARCHAR(100);
-
-    SELECT country INTO customerCountry FROM customers WHERE customerNumber = pCustomerNumber;
-		CASE customerCountry
-			WHEN 'USA' THEN SET pShipping = '2-day shipping';
-            WHEN 'Canada' THEN SET pShipping = '3-day Shipping';
-            ELSE SET pShipping = '5-day Shipping';
-            END CASE;
-END //
-
-DELIMITER ;
-
-CALL GetCustomerShipping(353, @shipping);
-SELECT @shipping;
-
--------------------------------------
+-- ** store procedures **
+    -- crete
+        delimiter //
+            CREATE procedure SelectAllCustomersByCityAndPost(IN mycity varchar(50), IN pCode varchar(15))
+            BEGIN
+                SELECT * FROM customers
+                    WHERE city = mycity AND pCode = postalCode;
+            END //
+        delimiter ;
+    -- usage
+        CALL SelectAllCustomersByCityAndPost('Singapore', '079903');

@@ -28,7 +28,7 @@ public class DatabaseTingDemo {
 
             // Correct JDBC URL
             /* NOTE : IT COULD BE 'jdbc:mysql://127.0.0.1:3306/' OR 'jdbc:mysql://localhost:3306/' - NEED TO CHOOSE THE CORRECT ONE*/
-            connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/classicmodels", "root", "rootroot");
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/classicmodels", "root", "rootroot");
 
         } catch (SQLException sqle) {
             sqle.printStackTrace();
