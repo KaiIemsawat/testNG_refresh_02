@@ -4,7 +4,7 @@
     <test verbose="2" preserve-order="true"
           name="/Users/kaiiemsawat/Documents/PostEducationProject/Automation/SeleniumTestNg/testNG_2/TestNG_Practice/src/test/java/t11_database_testing/DatabaseTingDemo.java">
         <classes>
-            <class name="t11_database_testing.DatabaseTingDemo">
+            <class name="t11_database_testing.DatabaseTestingDemo01">
                 <methods>
                     <include name="testStoredProceduresExists"/>
                 </methods>

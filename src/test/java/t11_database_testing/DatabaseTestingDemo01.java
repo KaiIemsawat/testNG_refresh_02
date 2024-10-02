@@ -10,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseTingDemo {
+public class DatabaseTestingDemo01 {
 
     Connection connection = null;
     Statement statement = null;
