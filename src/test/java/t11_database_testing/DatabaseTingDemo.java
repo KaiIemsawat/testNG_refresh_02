@@ -53,6 +53,7 @@ public class DatabaseTingDemo {
     }
 
     @Test(priority = 2)
+    // {call procedure_name()}
     void testSelectAllCustomers() throws SQLException {
         // uses with store procedure
         callableStatement = connection.prepareCall("{CALL SelectAllCustomers()}");
@@ -60,6 +61,36 @@ public class DatabaseTingDemo {
 
         Statement statement1 = connection.createStatement();
         resultSet2 = statement1.executeQuery("SELECT * FROM customers");
+
+        Assert.assertTrue(compareResultSets(resultSet1, resultSet2));
+    }
+
+    @Test(priority = 3)
+    // {call procedure_name(?}
+    void testSelectAllCustomersByCity() throws SQLException {
+        // uses with store procedure
+        callableStatement = connection.prepareCall("{CALL SelectAllCustomersByCity(?)}");
+        callableStatement.setString(1, "Singapore"); // parameter index starts at '1'
+        resultSet1 = callableStatement.executeQuery();
+
+        Statement statement1 = connection.createStatement();
+        resultSet2 = statement1.executeQuery("SELECT * FROM customers WHERE city = 'Singapore'");
+
+        Assert.assertTrue(compareResultSets(resultSet1, resultSet2));
+    }
+
+    @Test(priority = 3)
+        // {call procedure_name(?,?}
+    void testSelectAllCustomersByCityAndPostCode() throws SQLException {
+        // uses with store procedure
+        callableStatement = connection.prepareCall("{CALL SelectAllCustomersByCityAndPost(?, ?)}");
+        callableStatement.setString(1, "Singapore"); // parameter index starts at '1'
+        callableStatement.setString(2, "079903"); // parameter index starts at '1'
+
+        resultSet1 = callableStatement.executeQuery();
+
+        Statement statement1 = connection.createStatement();
+        resultSet2 = statement1.executeQuery("SELECT * FROM customers WHERE city = 'Singapore' AND postalCode = '079903'");
 
         Assert.assertTrue(compareResultSets(resultSet1, resultSet2));
     }
