@@ -66,7 +66,7 @@ CREATE procedure get_order_by_cust(
 delimiter ;
 
 CALL get_order_by_cust(141, @shipped, @canceled, @resolved, @disputed);
-SELECT @shipped, @canceled, @resolved, @disputed;
+
         
 --------------------------------------------
 
@@ -93,8 +93,6 @@ SELECT @shipping;
 
 
 --------------------------------------------
-
-SELECT * FROM products;
        
        
        
