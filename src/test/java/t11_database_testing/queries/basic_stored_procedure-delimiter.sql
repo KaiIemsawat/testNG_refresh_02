@@ -91,6 +91,15 @@ delimiter ;
 CALL GetCustomerShipping(112, @shipping);
 SELECT @shipping;
 
+SELECT country,
+	CASE 
+		WHEN country = 'USA' THEN '2-day Shipping'
+		WHEN country = 'Canada' THEN '3-day Shipping'
+		ELSE '5-day Shipping'
+	END as ShippingTime
+FROM customers
+WHERE customerNumber=112;
+
 
 --------------------------------------------
        
